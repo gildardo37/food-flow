@@ -1,33 +1,23 @@
-import Image from "next/image";
+import { clsxm } from "@/utils/clsxm";
 import React from "react";
 
 interface Props {
-  image: string;
-  title: string;
-  details: string;
+  children: React.ReactNode;
   onClick?: () => void;
-  buttonLabel?: string;
+  className?: string;
 }
 
 export const Card: React.FC<Props> = ({
-  title,
-  details,
-  image,
   onClick = () => undefined,
+  className,
+  children,
 }) => {
   return (
     <button
       onClick={onClick}
-      className="flex flex-col overflow-hidden rounded-md bg-slate-100"
+      className={clsxm("rounded-md bg-slate-100 p-4", className)}
     >
-      <div className="relative aspect-square w-full object-cover">
-        <Image src={image} alt={title} fill />
-      </div>
-      <div className="flex w-full flex-col p-4 text-left">
-        <p className="font-semibold">{title}</p>
-        <p className="text-sm text-gray-500">{title}</p>
-        <p className="font-bold">{details}</p>
-      </div>
+      {children}
     </button>
   );
 };

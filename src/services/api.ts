@@ -1,4 +1,4 @@
-import { Login, SupabaseRequest } from "@/types";
+import { Login, SupabaseRequest, Table } from "@/types";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/services/database";
 
@@ -38,4 +38,10 @@ export const setUserSession = async ({
     access_token,
     refresh_token,
   });
+};
+
+export const getTables = async () => {
+  return handleRequest<Table[]>(() =>
+    supabase.from("tables").select("*").order("id", { ascending: true })
+  );
 };
