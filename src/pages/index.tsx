@@ -1,81 +1,94 @@
-import { Card } from "@/components/Card";
-import { Modal } from "@/components/Modal";
-import { ProductOptions } from "@/components/Product/ProductOptions";
-import { useModal } from "@/hooks/useModal";
-import React, { useState } from "react";
+import { FormEvent } from "react";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { useAtom } from "jotai";
+import { sessionAtom } from "@/atoms/session";
+import { useLogin, useSetSession } from "@/hooks/useApi";
+import { handleErrors } from "@/utils/errors";
+import { useAlert } from "@/hooks/useAlert";
+import { useForm } from "@/hooks/useForm";
+import { Field } from "@/components/Field";
+import { Button } from "@/components/Button";
+import { ButtonLink } from "@/components/Button/ButtonLink";
 
-const data = [
-  {
-    id: 1,
-    image: "/hamburger.jpg",
-    title: "Hamburger",
-    details: "$80.00",
-    buttonLabel: "Add",
-  },
-  {
-    id: 2,
-    image: "/hamburger.jpg",
-    title: "Hot dog",
-    details: "$35.00",
-    buttonLabel: "Add",
-  },
-  {
-    id: 3,
-    image: "/hamburger.jpg",
-    title: "Nachos",
-    details: "$60.00",
-    buttonLabel: "Add",
-  },
-  {
-    id: 4,
-    image: "/hamburger.jpg",
-    title: "Burritos",
-    details: "$20.00",
-    buttonLabel: "Add",
-  },
-];
+const LoginPage: NextPage = () => {
+  const router = useRouter();
+  const [, setSession] = useAtom(sessionAtom);
+  const { displayAlert } = useAlert();
+  const { mutateAsync: signIn, isLoading: isLoginLoading } = useLogin();
+  const { mutateAsync: setUserSession, isLoading: isSessionLoading } =
+    useSetSession();
+  const { formData, handleInputChange, isDisabled } = useForm({
+    email: { value: "" },
+    password: { value: "" },
+  });
 
-export default function Home() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const { isOpen, closeModal, openModal } = useModal();
+  const isLoading = isLoginLoading || isSessionLoading;
 
-  const handleOpen = (id: number) => {
-    setSelectedId(id);
-    openModal();
-  };
+  async function logIn(event: FormEvent<HTMLFormElement>) {
+    try {
+      event.preventDefault();
+      const { email, password } = formData;
+      const { data, error } = await signIn({
+        email: email.value,
+        password: password.value,
+      });
 
-  const handleClose = () => {
-    setSelectedId(null);
-    closeModal();
-  };
+      if (error) throw error;
+
+      if (data.session) {
+        const { error: sessionError } = await setUserSession(data.session);
+        if (sessionError) throw sessionError;
+        setSession(data.session);
+        router.replace("/order");
+      } else {
+        throw new Error("Something failed");
+      }
+    } catch (e) {
+      handleErrors(e, displayAlert);
+    }
+  }
 
   return (
-    <main>
-      <section className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-        {data.map(({ id, title, buttonLabel, details, image }) => (
-          <Card
-            key={id}
-            image={image}
-            title={title}
-            details={details}
-            buttonLabel={buttonLabel}
-            onClick={() => handleOpen(id)}
-          />
-        ))}
-        {data.map(({ id, title, buttonLabel, details, image }) => (
-          <Card
-            key={id}
-            image={image}
-            title={title}
-            details={details}
-            buttonLabel={buttonLabel}
-            onClick={() => handleOpen(id)}
-          />
-        ))}
-      </section>
-      <Modal onClose={handleClose} title="Order" modalOpen={isOpen}>
-        {selectedId ? <ProductOptions data={data[selectedId - 1]} /> : null}
-      </Modal>
-    </main>
+    <section className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-4">
+      <form className="flex flex-col gap-4" onSubmit={logIn}>
+        <h1 className="text-center text-4xl font-bold">Food Flow</h1>
+        <Field
+          type="email"
+          name="email"
+          label="Email"
+          onInput={handleInputChange}
+          value={formData.email.value}
+          disabled={isLoading}
+          required={formData.email.required}
+        />
+        <Field
+          type="password"
+          name="password"
+          label="Password"
+          onInput={handleInputChange}
+          value={formData.password.value}
+          disabled={isLoading}
+          required={formData.password.required}
+        />
+        <Button
+          type="submit"
+          disabled={isLoading || isDisabled}
+          isLoading={isLoading}
+        >
+          sign in
+        </Button>
+        <div className="flex items-center justify-center gap-4 px-2">
+          <span className="h-[1px] w-full grow bg-gray-300" />
+          <span className="shrink-0 text-center text-gray-500">Or</span>
+          <span className="h-[1px] w-full grow bg-gray-300" />
+        </div>
+        <ButtonLink href="/sign-up">Sign up</ButtonLink>
+      </form>
+      <div className="flex flex-col items-center py-4"></div>
+    </section>
   );
-}
+};
+
+export default LoginPage;

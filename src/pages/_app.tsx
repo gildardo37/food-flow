@@ -2,6 +2,17 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { DefaultLayout } from "@/components/Layout";
 import Head from "next/head";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1 * (60 * 1000),
+    },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -9,9 +20,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Food Flow</title>
       </Head>
-      <DefaultLayout>
-        <Component {...pageProps} />
-      </DefaultLayout>
+      <QueryClientProvider client={queryClient}>
+        <DefaultLayout>
+          <Component {...pageProps} />
+        </DefaultLayout>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   );
 }
