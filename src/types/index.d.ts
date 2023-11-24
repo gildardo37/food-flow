@@ -15,3 +15,17 @@ export interface DisplayAlertProps {
   type?: AlertOptionType;
   onClose?: () => void;
 }
+
+export type AlertColors = Record<
+  AlertOptionType,
+  {
+    backgroundColor: string;
+    textColor: string;
+    icon: ReactNode;
+  }
+>;
+
+export interface DropdownOptions<T = string> {
+  name: string;
+  value: T;
+}

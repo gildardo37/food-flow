@@ -1,7 +1,6 @@
 import { FormEvent } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useAtom } from "jotai";
 import { sessionAtom } from "@/atoms/session";
 import { useLogin, useSetSession } from "@/hooks/useApi";
@@ -16,8 +15,8 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const [, setSession] = useAtom(sessionAtom);
   const { displayAlert } = useAlert();
-  const { mutateAsync: signIn, isLoading: isLoginLoading } = useLogin();
-  const { mutateAsync: setUserSession, isLoading: isSessionLoading } =
+  const { mutateAsync: signIn, isPending: isLoginLoading } = useLogin();
+  const { mutateAsync: setUserSession, isPending: isSessionLoading } =
     useSetSession();
   const { formData, handleInputChange, isDisabled } = useForm({
     email: { value: "" },

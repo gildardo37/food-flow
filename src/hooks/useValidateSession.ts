@@ -1,10 +1,10 @@
-import { useAtom } from "jotai";
-import { useAlert } from "./useAlert";
-import { sessionAtom, sessionLoadingAtom } from "@/atoms/session";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { sessionAtom, sessionLoadingAtom } from "@/atoms/session";
 import { validateSession } from "@/services/api";
 import { handleErrors } from "@/utils/errors";
+import { useAlert } from "@/hooks/useAlert";
 
 export const useValidateSession = () => {
   const { displayAlert } = useAlert();

@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
+import { v4 as UUID } from "uuid";
+import { ClassValue } from "clsx";
+import { clsxm } from "@/utils/clsxm";
+import { useAlert } from "@/hooks/useAlert";
 import { NotVisibleIcon } from "@/components/Icons/NotVisibleIcon";
 import { VisibleIcon } from "@/components/Icons/VisibleIcon";
-import { clsxm } from "@/utils/clsxm";
 import { CopyIcon } from "@/components/Icons/CopyIcon";
-import { v4 as UUID } from "uuid";
-import { useAlert } from "@/hooks/useAlert";
-import { ClassValue } from "clsx";
 
 interface Props {
   id?: string;

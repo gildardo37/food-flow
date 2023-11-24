@@ -3,8 +3,12 @@
     "next/core-web-vitals",
     "plugin:prettier/recommended",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "root": true,
   "rules": {
     "tailwindcss/no-custom-classname": "off"
   }

@@ -1,5 +1,5 @@
-import { clsxm } from "@/utils/clsxm";
 import React from "react";
+import { clsxm } from "@/utils/clsxm";
 
 interface Props {
   small?: boolean;

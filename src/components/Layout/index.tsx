@@ -1,8 +1,9 @@
 import React from "react";
-import { Header } from "@/components/Header";
-import { Loading } from "../Loading";
 import { clsxm } from "@/utils/clsxm";
 import { useValidateSession } from "@/hooks/useValidateSession";
+import { Header } from "@/components/Header";
+import { Loading } from "@/components/Loading";
+import { AlertBar } from "@/components/AlertBar";
 
 interface Props {
   children: React.ReactNode;
@@ -28,13 +29,12 @@ export const DefaultLayout: React.FC<Props> = ({ children }) => {
           session ? "min-h-[calc(100dvh-56px)]" : "min-h-screen"
         )}
       >
+        <AlertBar />
         <div className="mx-auto grid w-full max-w-lg md:max-w-7xl">
           {(router.asPath === "/" && !session) ||
-          (router.asPath !== "/" && session) ? (
-            children
-          ) : (
-            <p>Please log in to access this page.</p>
-          )}
+          (router.asPath !== "/" && session)
+            ? children
+            : null}
         </div>
       </main>
     </>

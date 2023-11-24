@@ -1,9 +1,9 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import { DefaultLayout } from "@/components/Layout";
 import Head from "next/head";
+import type { AppProps } from "next/app";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { DefaultLayout } from "@/components/Layout";
+import "@/styles/globals.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {

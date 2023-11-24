@@ -1,8 +1,6 @@
-import { Login } from "@/types";
-import { supabase } from "./database";
-import { PostgrestSingleResponse, Session } from "@supabase/supabase-js";
-
-type SupabaseRequest<T> = Promise<PostgrestSingleResponse<T>>;
+import { Login, SupabaseRequest } from "@/types";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "@/services/database";
 
 export const wait = (ms: number) => new Promise((fn) => setTimeout(fn, ms));
 

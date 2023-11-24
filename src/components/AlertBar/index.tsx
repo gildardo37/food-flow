@@ -2,8 +2,8 @@ import React from "react";
 import { AlertColors } from "@/types";
 import { clsxm } from "@/utils/clsxm";
 import { useAlert } from "@/hooks/useAlert";
-import { InfoIcon } from "@/components/svgs/InfoIcon";
-import { CheckIcon } from "@/components/svgs/CheckIcon";
+import { InfoIcon } from "@/components/Icons/InfoIcon";
+import { CheckIcon } from "@/components/Icons/CheckIcon";
 
 export const AlertBar: React.FC = () => {
   const { isAlertDisplayed, alertOptions, closeAlert } = useAlert();
@@ -38,10 +38,7 @@ export const AlertBar: React.FC = () => {
       )}
       onClick={closeAlert}
     >
-      <p
-        className={clsxm(["flex flex-grow text-left", textColor])}
-        style={{ wordBreak: "break-word" }}
-      >
+      <p className={clsxm(["flex flex-grow text-left", textColor])}>
         {alertOptions.message}
       </p>
       <div className="shrink-0">{icon}</div>

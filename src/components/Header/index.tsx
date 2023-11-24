@@ -1,6 +1,5 @@
-// components/FixedHeader.tsx
-import { clsxm } from "@/utils/clsxm";
 import React from "react";
+import { clsxm } from "@/utils/clsxm";
 
 export const Header: React.FC = () => {
   return (
