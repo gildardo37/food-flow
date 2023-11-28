@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+  getProducts,
   getTables,
   setUserSession,
   signIn,
@@ -8,6 +9,7 @@ import {
 } from "@/services/api";
 
 const tablesKey = "tables";
+const productsKey = "products";
 
 export const useLogin = () => useMutation({ mutationFn: signIn });
 
@@ -21,4 +23,8 @@ export const useSetSession = () => {
 
 export const useGetTables = () => {
   return useQuery({ queryKey: [tablesKey], queryFn: getTables });
+};
+
+export const useGetProducts = () => {
+  return useQuery({ queryKey: [productsKey], queryFn: getProducts });
 };

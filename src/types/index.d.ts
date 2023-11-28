@@ -29,3 +29,21 @@ export interface DropdownOptions<T = string> {
   name: string;
   value: T;
 }
+
+export type StepComponents = Record<Steps, React.ReactNode>;
+
+export interface OrderDetails {
+  tableId?: number;
+  products?: ProductDetails[];
+}
+
+export interface ProductDetails {
+  id: string;
+  quantity: number;
+  notes: string;
+}
+
+export interface StepOptions {
+  label: string;
+  isDisabled: boolean;
+}

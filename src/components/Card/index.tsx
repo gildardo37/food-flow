@@ -15,7 +15,7 @@ export const Card: React.FC<Props> = ({
   return (
     <button
       onClick={onClick}
-      className={clsxm("rounded-md bg-slate-100 p-4", className)}
+      className={clsxm("w-full rounded-md bg-slate-100 p-4", className)}
     >
       {children}
     </button>

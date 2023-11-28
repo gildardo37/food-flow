@@ -13,3 +13,19 @@ export interface Table {
   name: string;
   capacity: number;
 }
+
+export interface Product {
+  id: string;
+  created_at: Date;
+  name: string;
+  description: string;
+  price: number;
+  category_fk: number;
+  categories: Category;
+}
+
+export interface Category {
+  id: number;
+  created_at: Date;
+  name: string;
+}

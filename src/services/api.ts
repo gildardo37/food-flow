@@ -1,4 +1,4 @@
-import { Login, SupabaseRequest, Table } from "@/types";
+import { Login, Product, SupabaseRequest, Table } from "@/types";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/services/database";
 
@@ -43,5 +43,14 @@ export const setUserSession = async ({
 export const getTables = async () => {
   return handleRequest<Table[]>(() =>
     supabase.from("tables").select("*").order("id", { ascending: true })
+  );
+};
+
+export const getProducts = async () => {
+  return handleRequest<Product[]>(() =>
+    supabase
+      .from("products")
+      .select("*, categories(*)")
+      .order("id", { ascending: true })
   );
 };

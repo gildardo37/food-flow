@@ -7,6 +7,10 @@ p {
   word-break: break-word;
 }
 
+label.radio:has(input[type="radio"]:checked) {
+  border-color: black;
+}
+
 input.field:disabled,
 input.field:read-only {
   pointer-events: none;
@@ -15,6 +19,10 @@ input.field:read-only {
 
 .button:hover:not(:disabled) {
   transform: scale(0.95);
+}
+
+.progress-bar {
+  transition: width 1s ease;
 }
 
 @media only screen and (min-width: 768px) {
