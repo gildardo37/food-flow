@@ -41,12 +41,9 @@ const Order: NextPage = () => {
     setNextDisabled(true);
   };
 
-  console.log(order);
-
   useEffect(() => {
-    console.log("effect...");
     if (!order.tableId || activeStep !== 0) return;
-    setNextDisabled(activeStep !== 0);
+    setNextDisabled(false);
     //eslint-disable-next-line
   }, [activeStep]);
 
