@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { CloseIcon } from "@/components/Icons/CloseIcon";
 import { clsxm } from "@/utils/clsxm";
+import { CloseIcon } from "@/components/Icons/CloseIcon";
 
 interface Props {
   modalOpen?: boolean;
   title: string;
   children?: React.ReactNode;
   onClose: () => void;
+  full?: boolean;
 }
 
 export const Modal: React.FC<Props> = ({
@@ -14,6 +15,7 @@ export const Modal: React.FC<Props> = ({
   children,
   onClose,
   title,
+  full,
 }: Props) => {
   const [triggerClose, setTriggerClose] = useState(false);
 
@@ -38,7 +40,12 @@ export const Modal: React.FC<Props> = ({
         { animate__fadeOut: triggerClose }
       )}
     >
-      <section className="animate__animated animate__zoomIn flex h-full max-h-screen w-full max-w-screen-md flex-col gap-4 overflow-y-auto bg-white p-4 md:h-auto md:max-h-[90vh] md:max-w-screen-md md:rounded-lg md:p-6">
+      <section
+        className={clsxm(
+          "animate__animated animate__zoomIn flex h-full max-h-screen w-full max-w-screen-md flex-col gap-4 overflow-y-auto bg-white p-4 md:h-auto md:max-h-[80vh] md:max-w-screen-md md:rounded-lg md:p-6",
+          { "md:h-full": full }
+        )}
+      >
         <header className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">{title}</h2>
           <button onClick={closeModal}>

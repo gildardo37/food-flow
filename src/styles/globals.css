@@ -25,6 +25,10 @@ input.field:read-only {
   transition: width 1s ease;
 }
 
+.accordion-transition {
+  transition: max-height 300ms ease-in-out;
+}
+
 @media only screen and (min-width: 768px) {
   ::-webkit-scrollbar {
     width: 10px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StepOptions } from "@/types";
 
 interface Props {
@@ -6,6 +6,7 @@ interface Props {
 }
 
 export const useStepper = ({ steps }: Props) => {
+  const [isNextDisabled, setNextDisabled] = useState(true);
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
@@ -19,6 +20,15 @@ export const useStepper = ({ steps }: Props) => {
       isDisabled: index === 0 ? false : isDisabled(index),
     }))
   );
+
+  useEffect(() => {
+    if (!completed[activeStep]) {
+      disableNextButton();
+    } else {
+      enableNextButton();
+    }
+    //eslint-disable-next-line
+  }, [activeStep, completed]);
 
   const totalSteps = steps.length;
   const isFirstStep = activeStep === 0;
@@ -54,6 +64,16 @@ export const useStepper = ({ steps }: Props) => {
     handleNextStep();
   };
 
+  const disableNextButton = () => {
+    if (isNextDisabled) return;
+    setNextDisabled(true);
+  };
+
+  const enableNextButton = () => {
+    if (!isNextDisabled) return;
+    setNextDisabled(false);
+  };
+
   return {
     isFirstStep,
     isLastStep,
@@ -63,5 +83,8 @@ export const useStepper = ({ steps }: Props) => {
     activeStep,
     setActiveStep,
     stepOptions,
+    isNextDisabled,
+    enableNextButton,
+    disableNextButton,
   };
 };

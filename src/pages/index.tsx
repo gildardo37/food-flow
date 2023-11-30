@@ -25,7 +25,7 @@ const LoginPage: NextPage = () => {
 
   const isLoading = isLoginLoading || isSessionLoading;
 
-  async function logIn(event: FormEvent<HTMLFormElement>) {
+  const logIn = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
       const { email, password } = formData;
@@ -47,7 +47,7 @@ const LoginPage: NextPage = () => {
     } catch (e) {
       handleErrors(e, displayAlert);
     }
-  }
+  };
 
   return (
     <section className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-4">

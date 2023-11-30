@@ -19,6 +19,7 @@ export interface Product {
   created_at: Date;
   name: string;
   description: string;
+  image: string;
   price: number;
   category_fk: number;
   categories: Category;
@@ -29,3 +30,8 @@ export interface Category {
   created_at: Date;
   name: string;
 }
+
+export type ProductCardData = Omit<
+  Product,
+  "id" | "created_at" | "category_fk" | "categories"
+>;

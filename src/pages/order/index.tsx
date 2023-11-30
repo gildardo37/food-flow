@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NextPage } from "next";
 import { Button } from "@/components/Button";
 import { Stepper } from "@/components/Stepper";
@@ -6,8 +6,6 @@ import { SelectTable } from "@/components/Steps/SelectTable";
 import { SelectOrder } from "@/components/Steps/SelectOrder";
 import { useStepper } from "@/hooks/useStepper";
 import { StepButtons } from "@/components/Stepper/StepButtons";
-import { useAtom } from "jotai";
-import { orderAtom } from "@/atoms/order";
 
 const Order: NextPage = () => {
   const {
@@ -19,12 +17,12 @@ const Order: NextPage = () => {
     handleFinish,
     stepOptions,
     setActiveStep,
+    isNextDisabled,
+    enableNextButton,
   } = useStepper({ steps: ["Table", "Order", "Review", "Checkout"] });
-  const [isNextDisabled, setNextDisabled] = useState(true);
-  const [order] = useAtom(orderAtom);
 
   const componentes: React.ReactNode[] = [
-    <SelectTable key="0" onSubmit={() => setNextDisabled(false)} />,
+    <SelectTable key="0" onChange={enableNextButton} />,
     <SelectOrder key="1" />,
     <Button key="2">Checkout</Button>,
     <Button key="3">Review</Button>,
@@ -38,14 +36,7 @@ const Order: NextPage = () => {
 
   const onNextStep = () => {
     handleNext();
-    setNextDisabled(true);
   };
-
-  useEffect(() => {
-    if (!order.tableId || activeStep !== 0) return;
-    setNextDisabled(false);
-    //eslint-disable-next-line
-  }, [activeStep]);
 
   return (
     <section className="flex flex-col gap-4">

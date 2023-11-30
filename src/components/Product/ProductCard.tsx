@@ -1,30 +1,31 @@
 import Image from "next/image";
 import React from "react";
 import { Card } from "../Card";
+import { ProductCardData } from "@/types";
 
 interface Props {
-  image: string;
-  title: string;
-  details: string;
+  data: ProductCardData;
   onClick?: () => void;
-  buttonLabel?: string;
 }
 
 export const ProductCard: React.FC<Props> = ({
-  title,
-  details,
-  image,
+  data: { name, description, image, price },
   onClick = () => undefined,
 }) => {
   return (
-    <Card onClick={onClick} className="flex flex-col overflow-hidden">
-      <div className="relative aspect-square w-full object-cover">
-        <Image src={image} alt={title} fill />
+    <Card className="flex flex-col gap-2 text-left" onClick={onClick}>
+      <div className="relative aspect-square w-full shrink-0">
+        <Image
+          src={image ?? "/hamburger.jpg"}
+          fill
+          alt={name}
+          className="rounded"
+        />
       </div>
-      <div className="flex w-full flex-col p-4 text-left">
-        <p className="font-semibold">{title}</p>
-        <p className="text-sm text-gray-500">{title}</p>
-        <p className="font-bold">{details}</p>
+      <div className="flex h-full w-full flex-col gap-1">
+        <p className="font-semibold">{name}</p>
+        <p className="grow text-sm text-gray-500">{description}</p>
+        <p className="font-semibold">${price}</p>
       </div>
     </Card>
   );
