@@ -103,7 +103,7 @@ export const ProductOptions: React.FC<Props> = ({
   const [form, setForm] = useState<AddProductOptions>(productOptionsResponse);
 
   const onSubmit = (e: FormEvent) => {
-    console.log(e.preventDefault());
+    e.preventDefault();
     console.log("submit", form);
   };
 
