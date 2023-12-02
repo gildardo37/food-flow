@@ -55,7 +55,7 @@ export interface CheckboxData {
   checked: boolean;
 }
 
-interface CounterResponse {
+export interface CounterResponse {
   quantity: number;
   value: string;
 }
@@ -66,12 +66,21 @@ export type MultipleCounterResponse = CounterResponse[];
 
 export type FieldOptionType = "radio" | "checkbox" | "counter";
 
+export type FieldOptionData =
+  | InputRadioResponse
+  | CheckboxResponse
+  | MultipleCounterResponse
+  | null;
+
+export interface FieldOptions {
+  id: string;
+  type: FieldOptionType;
+  data: FieldOptionData;
+}
 export interface AddProductOptions {
   productId: Product["id"];
-  options: {
-    type: FieldOptionType;
-    data: InputRadioResponse | CheckboxResponse | MultipleCounterResponse;
-  }[];
+  quantity: number;
+  options: FieldOptions[];
 }
 
 export interface ProductOptionsResponse {
@@ -84,4 +93,10 @@ export interface OptionsData {
   id: number;
   name: string;
   description?: string;
+}
+
+export interface GroupFieldProps<T> {
+  options: OptionsData[];
+  name: string;
+  onChange: (data: T) => void;
 }

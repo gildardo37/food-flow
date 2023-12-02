@@ -1,22 +1,46 @@
-import React from "react";
-import { OptionsData } from "@/types";
+import React, { useState } from "react";
+import {
+  CounterResponse,
+  GroupFieldProps,
+  MultipleCounterResponse,
+} from "@/types";
 import { Accordion } from "@/components/Accordion";
 import { CounterField } from "@/components/Field/CounterField";
 
-interface Props {
-  data: OptionsData[];
-}
+export const CounterGroupField: React.FC<
+  GroupFieldProps<CounterResponse[]>
+> = ({ options, name, onChange }) => {
+  const [, setForm] = useState<MultipleCounterResponse>([]);
 
-export const CounterGroupField: React.FC<Props> = ({ data }) => {
+  const handleChange = (data: CounterResponse) => {
+    setForm((prev) => updateData(prev, data));
+  };
+
+  const updateData = (prev: MultipleCounterResponse, data: CounterResponse) => {
+    const { quantity, value } = data;
+    const newData = prev.map((item) =>
+      item.value === value ? { ...item, quantity } : item
+    );
+    const exists = newData.some((item) => item.value === value);
+
+    if (!exists) newData.push(data);
+
+    const response = newData.filter(({ quantity }) => quantity !== 0);
+    onChange(response);
+    return response;
+  };
+
   return (
-    <Accordion title="Input counter" isOpen>
+    <Accordion title={name} isOpen>
       <fieldset className="flex flex-col gap-4 p-4">
-        {data.map(({ id, name, description }) => (
+        {options.map(({ id, name, description }) => (
           <CounterField
             key={id}
             label={name}
             description={description}
-            onChange={(e) => console.log(e)}
+            onChange={(quantity) =>
+              handleChange({ quantity, value: id.toString() })
+            }
             maxAmount={2}
           />
         ))}

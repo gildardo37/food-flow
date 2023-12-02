@@ -1,6 +1,11 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import Image from "next/image";
-import { ProductOptionsResponse, Product } from "@/types";
+import {
+  ProductOptionsResponse,
+  Product,
+  FieldOptionData,
+  AddProductOptions,
+} from "@/types";
 import { Counter } from "@/components/Counter";
 import { Button } from "@/components/Button";
 import { OptionComponent } from "@/components/Product/OptionComponent";
@@ -9,9 +14,13 @@ interface Props {
   data: Product;
 }
 
+type ChangeProps = Omit<ProductOptionsResponse, "options"> & {
+  value: FieldOptionData;
+};
+
 const productOptions: ProductOptionsResponse[] = [
   {
-    id: 1,
+    id: 453454441,
     name: "Category 1",
     type: "radio",
     options: [
@@ -26,7 +35,7 @@ const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 2,
+    id: 272544,
     name: "Category 2",
     type: "checkbox",
     options: [
@@ -37,7 +46,7 @@ const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 3,
+    id: 784366,
     name: "Category 3",
     type: "counter",
     options: [
@@ -48,9 +57,20 @@ const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 4,
+    id: 2345768,
     name: "Category 4",
     type: "radio",
+    options: [
+      { id: 1, name: "Item 1" },
+      { id: 2, name: "Item 2" },
+      { id: 3, name: "Item 3", description: "$5.00" },
+      { id: 4, name: "Item 4" },
+    ],
+  },
+  {
+    id: 1342345,
+    name: "Category 5",
+    type: "counter",
     options: [
       { id: 1, name: "Item 1" },
       { id: 2, name: "Item 2" },
@@ -62,6 +82,7 @@ const productOptions: ProductOptionsResponse[] = [
 
 export const ProductOptions: React.FC<Props> = ({
   data: {
+    id,
     categories: { name: category },
     description,
     image,
@@ -69,40 +90,36 @@ export const ProductOptions: React.FC<Props> = ({
     price,
   },
 }) => {
-  // const productOptionsResponse: AddProductOptions = {
-  //   productId: "",
-  //   options: [
-  //     {
-  //       type: "radio",
-  //       data: "" as InputRadioResponse,
-  //     },
-  //     {
-  //       type: "checkbox",
-  //       data: ["1", "2"] as CheckboxResponse,
-  //       // data: ["1", "2"],
-  //     },
-  //     {
-  //       type: "counter",
-  //       data: [] as MultipleCounterResponse,
-  //       // data: [{ value: "option 1", quantity: 3 }],
-  //     },
-  //   ],
-  // };
+  const productOptionsResponse: AddProductOptions = {
+    productId: id,
+    quantity: 0,
+    options: productOptions.map(({ type, id }) => ({
+      id: id.toString(),
+      type,
+      data: null,
+    })),
+  };
 
-  // const [form, setForm] = useState(productOptions);
-
-  // const handleForm = (value: string, checked: boolean) => {
-  //   setForm((prev) => {
-  //     if (checked) {
-  //       return [...prev, value];
-  //     } else if (prev.includes(value)) {
-  //       return [...prev].filter((i) => i !== value);
-  //     } else return prev;
-  //   });
-  // };
+  const [form, setForm] = useState<AddProductOptions>(productOptionsResponse);
 
   const onSubmit = (e: FormEvent) => {
     console.log(e.preventDefault());
+    console.log("submit", form);
+  };
+
+  const handleChange = ({ id, value, type }: ChangeProps) => {
+    setForm((prev) => {
+      prev.options.forEach((item) => {
+        if (item.id === id.toString() && item.type === type) {
+          item.data = value;
+        }
+      });
+      return prev;
+    });
+  };
+
+  const handleCounterChange = (value: number) => {
+    setForm((prev) => ({ ...prev, quantity: value }));
   };
 
   return (
@@ -123,18 +140,28 @@ export const ProductOptions: React.FC<Props> = ({
           <p className="text-md text-gray-500">{category}</p>
           <p className="font-bold">${price}</p>
         </div>
-        <Counter onChange={(value) => console.log(value)} />
+        <Counter onChange={handleCounterChange} />
       </div>
       <div className="grid gap-4">
-        {productOptions.map((item) => (
-          <OptionComponent key={item.id} data={item.options} type={item.type} />
+        {productOptions.map(({ id, name, options, type }) => (
+          <OptionComponent
+            key={id}
+            data={options}
+            name={name}
+            type={type}
+            onChange={(value) => handleChange({ value, id, name, type })}
+          />
         ))}
       </div>
       <div className="flex items-center justify-between">
         <p>
           <b>Subtotal:</b> $35.00
         </p>
-        <Button className="w-fit" type="submit">
+        <Button
+          className="w-fit"
+          type="submit"
+          disabled={Boolean(!form.quantity)}
+        >
           Add product
         </Button>
       </div>
