@@ -14,19 +14,13 @@ export const Accordion: React.FC<Props> = ({
   isOpen = false,
 }) => {
   const [open, setOpen] = useState(isOpen);
-  const [isClosed, setIsClosed] = useState(!isOpen);
 
   const handleOpen = () => {
-    if (open) {
-      setTimeout(() => setIsClosed(true), 300);
-    } else {
-      setIsClosed(false);
-    }
     setOpen((prev) => !prev);
   };
 
   return (
-    <div className="flex w-full flex-col rounded-md border transition-all">
+    <article className="flex w-full flex-col rounded-md border transition-all">
       <div
         className="flex cursor-pointer justify-between p-3 font-semibold"
         onClick={handleOpen}
@@ -36,13 +30,12 @@ export const Accordion: React.FC<Props> = ({
       </div>
       <div
         className={clsxm(
-          "accordion-transition overflow-hidden border-t",
-          open ? "max-h-screen" : "max-h-0",
-          isClosed ? "border-t-0 p-0" : "p-3"
+          "accordion-transition overflow-hidden",
+          open ? "max-h-screen border-t" : "max-h-0"
         )}
       >
         {children}
       </div>
-    </div>
+    </article>
   );
 };

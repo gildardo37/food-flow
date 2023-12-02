@@ -1,3 +1,5 @@
+import { Product } from ".";
+
 export * from "./ApiResponse";
 
 export type AlertOptionType = "error" | "success" | "warning";
@@ -46,4 +48,40 @@ export interface ProductDetails {
 export interface StepOptions {
   label: string;
   isDisabled: boolean;
+}
+
+export interface CheckboxData {
+  value: string;
+  checked: boolean;
+}
+
+interface CounterResponse {
+  quantity: number;
+  value: string;
+}
+
+export type InputRadioResponse = string;
+export type CheckboxResponse = CheckboxData["value"][];
+export type MultipleCounterResponse = CounterResponse[];
+
+export type FieldOptionType = "radio" | "checkbox" | "counter";
+
+export interface AddProductOptions {
+  productId: Product["id"];
+  options: {
+    type: FieldOptionType;
+    data: InputRadioResponse | CheckboxResponse | MultipleCounterResponse;
+  }[];
+}
+
+export interface ProductOptionsResponse {
+  id: number;
+  name: string;
+  type: FieldOptionType;
+  options: OptionsData[];
+}
+export interface OptionsData {
+  id: number;
+  name: string;
+  description?: string;
 }
