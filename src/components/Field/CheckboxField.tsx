@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useId } from "react";
 import { CheckboxData } from "@/types";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { Checkbox } from "@/components/Field/Checkbox";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
   onChange: (data: CheckboxData) => void;
   className?: string;
   description?: string;
+  required?: boolean;
 }
 
 export const CheckboxField: React.FC<Props> = ({
@@ -19,8 +20,9 @@ export const CheckboxField: React.FC<Props> = ({
   onChange,
   className = "",
   value,
+  required = false,
 }) => {
-  const id = `${name}_${value}`;
+  const id = name + useId() + value;
   return (
     <label
       htmlFor={id}
@@ -38,7 +40,7 @@ export const CheckboxField: React.FC<Props> = ({
       <Checkbox
         name={name}
         id={id}
-        required
+        required={required}
         onChange={({ target: { checked, value } }) =>
           onChange({ checked, value })
         }

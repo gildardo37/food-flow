@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { ArrowDownIcon } from "@/components/Icons/ArrowDownIcon";
 
 interface Props {

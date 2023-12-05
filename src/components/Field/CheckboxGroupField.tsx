@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { CheckboxData, CheckboxResponse, GroupFieldProps } from "@/types";
 import { Accordion } from "@/components/Accordion";
 import { CheckboxField } from "@/components/Field/CheckboxField";
 
 export const CheckboxGroupField: React.FC<
   GroupFieldProps<CheckboxResponse>
-> = ({ options, name, onChange }) => {
+> = ({ options, name, onChange, required }) => {
   const [, setForm] = useState<CheckboxResponse>([]);
+  const idValue = useId();
 
   const handleForm = ({ value, checked }: CheckboxData) => {
     setForm((prev) => {
@@ -31,8 +32,9 @@ export const CheckboxGroupField: React.FC<
             value={id.toString()}
             label={name}
             description={description}
-            name="checkbox"
+            name={`checkbox${idValue}`}
             onChange={({ checked, value }) => handleForm({ value, checked })}
+            required={required}
           />
         ))}
       </fieldset>

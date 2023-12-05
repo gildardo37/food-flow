@@ -9,7 +9,7 @@ import { CounterField } from "@/components/Field/CounterField";
 
 export const CounterGroupField: React.FC<
   GroupFieldProps<CounterResponse[]>
-> = ({ options, name, onChange }) => {
+> = ({ options, name, onChange, required }) => {
   const [, setForm] = useState<MultipleCounterResponse>([]);
 
   const handleChange = (data: CounterResponse) => {
@@ -18,7 +18,7 @@ export const CounterGroupField: React.FC<
 
   const updateData = (prev: MultipleCounterResponse, data: CounterResponse) => {
     const { quantity, value } = data;
-    const newData = prev.map((item) =>
+    const newData = [...prev].map((item) =>
       item.value === value ? { ...item, quantity } : item
     );
     const exists = newData.some((item) => item.value === value);
@@ -41,7 +41,8 @@ export const CounterGroupField: React.FC<
             onChange={(quantity) =>
               handleChange({ quantity, value: id.toString() })
             }
-            maxAmount={2}
+            maxAmount={20}
+            required={required}
           />
         ))}
       </fieldset>

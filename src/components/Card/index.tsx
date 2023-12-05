@@ -1,4 +1,4 @@
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import React from "react";
 
 interface Props {

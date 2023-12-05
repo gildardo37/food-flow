@@ -1,5 +1,5 @@
 import React from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { Loading } from "@/components/Loading";
 
 interface Props {

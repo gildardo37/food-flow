@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useId } from "react";
 import { InputRadio } from "@/components/Field/InputRadio";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 
 interface Props {
   label: string;
@@ -9,6 +9,7 @@ interface Props {
   onChange: (value: string) => void;
   description?: string;
   className?: string;
+  required?: boolean;
 }
 
 export const RadioField: React.FC<Props> = ({
@@ -18,8 +19,9 @@ export const RadioField: React.FC<Props> = ({
   description,
   onChange,
   className = "",
+  required = false,
 }) => {
-  const id = `${name}_${value}`;
+  const id = name + useId() + value;
   return (
     <label
       htmlFor={id}
@@ -37,7 +39,7 @@ export const RadioField: React.FC<Props> = ({
       <InputRadio
         name={name}
         id={id}
-        required
+        required={required}
         onChange={() => onChange(value)}
       />
     </label>

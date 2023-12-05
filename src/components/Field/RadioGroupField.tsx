@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { GroupFieldProps } from "@/types";
 import { Accordion } from "@/components/Accordion";
 import { RadioField } from "@/components/Field/RadioField";
@@ -7,7 +7,9 @@ export const RadioGroupField: React.FC<GroupFieldProps<string>> = ({
   options,
   name,
   onChange,
+  required,
 }) => {
+  const idValue = useId();
   return (
     <Accordion title={name} isOpen>
       <fieldset className="flex flex-col gap-4 p-4">
@@ -18,8 +20,9 @@ export const RadioGroupField: React.FC<GroupFieldProps<string>> = ({
             value={id.toString()}
             label={name}
             description={description}
-            name="radio"
+            name={`radio${idValue}`}
             onChange={(value) => onChange(value)}
+            required={required}
           />
         ))}
       </fieldset>

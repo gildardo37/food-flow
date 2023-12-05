@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { DropdownOptions } from "@/types";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 
 interface Props {
   id?: string;

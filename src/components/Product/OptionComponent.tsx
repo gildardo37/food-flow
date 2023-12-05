@@ -9,6 +9,7 @@ interface Props {
   type: FieldOptionType;
   name: string;
   onChange: (value: FieldOptionData) => void;
+  required: boolean;
 }
 
 export const OptionComponent: React.FC<Props> = ({
@@ -16,10 +17,11 @@ export const OptionComponent: React.FC<Props> = ({
   name,
   type,
   onChange,
+  required,
 }) => {
   const handleChange = (value: FieldOptionData) => onChange(value);
 
-  const props = { options: data, onChange: handleChange, name };
+  const props = { options: data, onChange: handleChange, name, required };
 
   const components: Record<FieldOptionType, React.ReactNode> = {
     radio: <RadioGroupField {...props} />,

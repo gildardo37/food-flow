@@ -1,6 +1,6 @@
 import React from "react";
 import { AlertColors } from "@/types";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { useAlert } from "@/hooks/useAlert";
 import { InfoIcon } from "@/components/Icons/InfoIcon";
 import { CheckIcon } from "@/components/Icons/CheckIcon";

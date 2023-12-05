@@ -1,5 +1,5 @@
 import React from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { Counter } from "@/components/Counter";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   className?: string;
   maxAmount?: number;
   description?: string;
+  required: boolean;
 }
 
 export const CounterField: React.FC<Props> = ({
@@ -27,12 +28,7 @@ export const CounterField: React.FC<Props> = ({
           <p className="text-xs text-gray-400">{description}</p>
         ) : null}
       </div>
-      <Counter
-        onChange={(value) => onChange(value)}
-        minimize
-        maxAmount={maxAmount}
-        small
-      />
+      <Counter onChange={onChange} minimize maxAmount={maxAmount} small />
     </div>
   );
 };

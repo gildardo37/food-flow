@@ -1,5 +1,5 @@
 import { ChangeEvent, useMemo, useState } from "react";
-import { cleanPriceString } from "@/utils/numbers";
+import { cleanPriceString } from "@/utils";
 
 interface FormData {
   [key: string]: FormDataItems;

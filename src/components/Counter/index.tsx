@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { Button } from "@/components/Button";
+import { debounce } from "@/utils";
 
 interface Props {
   onChange?: (value: number) => void;
@@ -8,6 +9,7 @@ interface Props {
   maxAmount?: number;
   minimize?: boolean;
   small?: boolean;
+  initialValue?: number;
 }
 
 export const Counter: React.FC<Props> = ({
@@ -16,11 +18,17 @@ export const Counter: React.FC<Props> = ({
   maxAmount = 50,
   minimize = false,
   small = false,
+  initialValue = 0,
 }) => {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(initialValue);
   const isDecrementDisabled = counter <= minAmount;
   const isIncrementDisabled = counter >= maxAmount;
   const hide = counter === 0 && minimize;
+
+  const debouncedOnChange = debounce((value: number) => {
+    console.log(value);
+    onChange(value);
+  }, 300);
 
   const increment = () => {
     if (isIncrementDisabled) return;
@@ -33,7 +41,7 @@ export const Counter: React.FC<Props> = ({
   };
 
   const handleChange = (value: number) => {
-    onChange(value);
+    debouncedOnChange(value);
     return value;
   };
 

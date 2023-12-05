@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { sessionAtom } from "@/atoms/session";
 import { useLogin, useSetSession } from "@/hooks/useApi";
-import { handleErrors } from "@/utils/errors";
+import { handleErrors } from "@/utils";
 import { useAlert } from "@/hooks/useAlert";
 import { useForm } from "@/hooks/useForm";
 import { Field } from "@/components/Field";

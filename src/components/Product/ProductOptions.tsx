@@ -14,7 +14,7 @@ interface Props {
   data: Product;
 }
 
-type ChangeProps = Omit<ProductOptionsResponse, "options"> & {
+type ChangeProps = Omit<ProductOptionsResponse, "options" | "required"> & {
   value: FieldOptionData;
 };
 
@@ -23,6 +23,7 @@ const productOptions: ProductOptionsResponse[] = [
     id: 453454441,
     name: "Category 1",
     type: "radio",
+    required: true,
     options: [
       {
         id: 1,
@@ -38,9 +39,14 @@ const productOptions: ProductOptionsResponse[] = [
     id: 272544,
     name: "Category 2",
     type: "checkbox",
+    required: true,
     options: [
       { id: 1, name: "Checkbox 1" },
-      { id: 2, name: "Checkbox 2", description: "Includes sause." },
+      {
+        id: 2,
+        name: "Checkbox 2",
+        description: "Includes sause.",
+      },
       { id: 3, name: "Checkbox 3" },
       { id: 4, name: "Checkbox 4" },
     ],
@@ -49,6 +55,7 @@ const productOptions: ProductOptionsResponse[] = [
     id: 784366,
     name: "Category 3",
     type: "counter",
+    required: true,
     options: [
       { id: 1, name: "Counter 1", description: "$5.00" },
       { id: 2, name: "Counter 2" },
@@ -60,6 +67,7 @@ const productOptions: ProductOptionsResponse[] = [
     id: 2345768,
     name: "Category 4",
     type: "radio",
+    required: true,
     options: [
       { id: 1, name: "Item 1" },
       { id: 2, name: "Item 2" },
@@ -71,6 +79,7 @@ const productOptions: ProductOptionsResponse[] = [
     id: 1342345,
     name: "Category 5",
     type: "counter",
+    required: true,
     options: [
       { id: 1, name: "Item 1" },
       { id: 2, name: "Item 2" },
@@ -143,13 +152,14 @@ export const ProductOptions: React.FC<Props> = ({
         <Counter onChange={handleCounterChange} />
       </div>
       <div className="grid gap-4">
-        {productOptions.map(({ id, name, options, type }) => (
+        {productOptions.map(({ id, name, options, type, required }) => (
           <OptionComponent
             key={id}
             data={options}
             name={name}
             type={type}
             onChange={(value) => handleChange({ value, id, name, type })}
+            required={required}
           />
         ))}
       </div>

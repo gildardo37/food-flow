@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 import { CloseIcon } from "@/components/Icons/CloseIcon";
 
 interface Props {

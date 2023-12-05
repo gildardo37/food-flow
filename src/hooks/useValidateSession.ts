@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { sessionAtom, sessionLoadingAtom } from "@/atoms/session";
 import { validateSession } from "@/services/api";
-import { handleErrors } from "@/utils/errors";
+import { handleErrors } from "@/utils";
 import { useAlert } from "@/hooks/useAlert";
 
 export const useValidateSession = () => {

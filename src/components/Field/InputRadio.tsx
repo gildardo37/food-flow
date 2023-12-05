@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from "react";
-import { clsxm } from "@/utils/clsxm";
+import { clsxm } from "@/utils";
 
 export const InputRadio: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
   className,
