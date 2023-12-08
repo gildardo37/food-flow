@@ -6,90 +6,22 @@ import {
   FieldOptionData,
   AddProductOptions,
 } from "@/types";
+import { productOptions } from "@/services/mockData";
 import { Counter } from "@/components/Counter";
 import { Button } from "@/components/Button";
 import { OptionComponent } from "@/components/Product/OptionComponent";
 
 interface Props {
   data: Product;
+  closeModal: () => void;
 }
 
 type ChangeProps = Omit<ProductOptionsResponse, "options" | "required"> & {
   value: FieldOptionData;
 };
 
-const productOptions: ProductOptionsResponse[] = [
-  {
-    id: 453454441,
-    name: "Category 1",
-    type: "radio",
-    required: true,
-    options: [
-      {
-        id: 1,
-        name: "Radio 1",
-        description: "Testing a big and large description",
-      },
-      { id: 2, name: "Radio 2" },
-      { id: 3, name: "Radio 3" },
-      { id: 4, name: "Radio 4", description: "$3.00" },
-    ],
-  },
-  {
-    id: 272544,
-    name: "Category 2",
-    type: "checkbox",
-    required: true,
-    options: [
-      { id: 1, name: "Checkbox 1" },
-      {
-        id: 2,
-        name: "Checkbox 2",
-        description: "Includes sause.",
-      },
-      { id: 3, name: "Checkbox 3" },
-      { id: 4, name: "Checkbox 4" },
-    ],
-  },
-  {
-    id: 784366,
-    name: "Category 3",
-    type: "counter",
-    required: true,
-    options: [
-      { id: 1, name: "Counter 1", description: "$5.00" },
-      { id: 2, name: "Counter 2" },
-      { id: 3, name: "Counter 3" },
-      { id: 4, name: "Counter 4" },
-    ],
-  },
-  {
-    id: 2345768,
-    name: "Category 4",
-    type: "radio",
-    required: true,
-    options: [
-      { id: 1, name: "Item 1" },
-      { id: 2, name: "Item 2" },
-      { id: 3, name: "Item 3", description: "$5.00" },
-      { id: 4, name: "Item 4" },
-    ],
-  },
-  {
-    id: 1342345,
-    name: "Category 5",
-    type: "counter",
-    required: true,
-    options: [
-      { id: 1, name: "Item 1" },
-      { id: 2, name: "Item 2" },
-      { id: 3, name: "Item 3", description: "$5.00" },
-      { id: 4, name: "Item 4" },
-    ],
-  },
-];
-
 export const ProductOptions: React.FC<Props> = ({
+  closeModal,
   data: {
     id,
     categories: { name: category },
@@ -149,7 +81,7 @@ export const ProductOptions: React.FC<Props> = ({
           <p className="text-md text-gray-500">{category}</p>
           <p className="font-bold">${price}</p>
         </div>
-        <Counter onChange={handleCounterChange} />
+        <Counter onChange={handleCounterChange} required />
       </div>
       <div className="grid gap-4">
         {productOptions.map(({ id, name, options, type, required }) => (
@@ -167,13 +99,14 @@ export const ProductOptions: React.FC<Props> = ({
         <p>
           <b>Subtotal:</b> $35.00
         </p>
-        <Button
-          className="w-fit"
-          type="submit"
-          disabled={Boolean(!form.quantity)}
-        >
-          Add product
-        </Button>
+        <div className="flex gap-4">
+          <Button fit type="button" buttonType="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button fit type="submit" disabled={Boolean(!form.quantity)}>
+            Add product
+          </Button>
+        </div>
       </div>
     </form>
   );

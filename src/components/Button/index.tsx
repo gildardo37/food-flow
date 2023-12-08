@@ -13,6 +13,7 @@ interface Props {
   isLoading?: boolean;
   rounded?: boolean;
   small?: boolean;
+  fit?: boolean;
 }
 
 export const Button: React.FC<Props> = ({
@@ -26,6 +27,7 @@ export const Button: React.FC<Props> = ({
   isLoading,
   rounded = false,
   small = false,
+  fit = false,
 }) => {
   return (
     <button
@@ -37,6 +39,7 @@ export const Button: React.FC<Props> = ({
           "border border-black text-black": buttonType === "secondary",
           "aspect-square w-[42px] rounded-full p-1": rounded,
           "h-9 w-9": small,
+          "w-fit": fit,
         },
       ])}
       onClick={onClick && (!disabled || isLoading) ? onClick : undefined}

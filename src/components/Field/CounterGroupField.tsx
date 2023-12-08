@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import {
   CounterResponse,
   GroupFieldProps,
@@ -11,6 +11,7 @@ export const CounterGroupField: React.FC<
   GroupFieldProps<CounterResponse[]>
 > = ({ options, name, onChange, required }) => {
   const [, setForm] = useState<MultipleCounterResponse>([]);
+  const idValue = useId();
 
   const handleChange = (data: CounterResponse) => {
     setForm((prev) => updateData(prev, data));
@@ -33,7 +34,7 @@ export const CounterGroupField: React.FC<
   return (
     <Accordion title={name} isOpen>
       <fieldset className="flex flex-col gap-4 p-4">
-        {options.map(({ id, name, description }) => (
+        {options.map(({ id, name, description, required: isRequired }) => (
           <CounterField
             key={id}
             label={name}
@@ -42,7 +43,8 @@ export const CounterGroupField: React.FC<
               handleChange({ quantity, value: id.toString() })
             }
             maxAmount={20}
-            required={required}
+            required={required || isRequired}
+            name={`counter${idValue}`}
           />
         ))}
       </fieldset>

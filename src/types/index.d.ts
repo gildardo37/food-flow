@@ -88,17 +88,18 @@ export interface ProductOptionsResponse {
   name: string;
   type: FieldOptionType;
   options: OptionsData[];
-  required: boolean;
+  required?: boolean;
 }
 export interface OptionsData {
   id: number;
   name: string;
   description?: string;
+  required?: boolean;
 }
 
 export interface GroupFieldProps<T> {
   options: OptionsData[];
   name: string;
   onChange: (data: T) => void;
-  required: boolean;
+  required?: boolean;
 }

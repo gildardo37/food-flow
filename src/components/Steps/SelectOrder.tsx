@@ -40,6 +40,7 @@ export const SelectOrder: React.FC = () => {
         {selectedId ? (
           <ProductOptions
             data={data.data.find(({ id }) => id === selectedId) as Product}
+            closeModal={closeModal}
           />
         ) : null}
       </Modal>

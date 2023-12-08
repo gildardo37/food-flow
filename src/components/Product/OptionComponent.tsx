@@ -9,7 +9,7 @@ interface Props {
   type: FieldOptionType;
   name: string;
   onChange: (value: FieldOptionData) => void;
-  required: boolean;
+  required?: boolean;
 }
 
 export const OptionComponent: React.FC<Props> = ({
