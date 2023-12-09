@@ -56,8 +56,8 @@ export interface CheckboxData {
 }
 
 export interface CounterResponse {
+  id: number;
   quantity: number;
-  value: string;
 }
 
 export type InputRadioResponse = string;
@@ -70,7 +70,7 @@ export type FieldOptionData =
   | InputRadioResponse
   | CheckboxResponse
   | MultipleCounterResponse
-  | null;
+  | number[];
 
 export interface FieldOptions {
   id: string;

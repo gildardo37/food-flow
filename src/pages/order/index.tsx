@@ -6,6 +6,7 @@ import { SelectTable } from "@/components/Steps/SelectTable";
 import { SelectOrder } from "@/components/Steps/SelectOrder";
 import { useStepper } from "@/hooks/useStepper";
 import { StepButtons } from "@/components/Stepper/StepButtons";
+import { FormTest } from "@/components/FormTest";
 
 const Order: NextPage = () => {
   const {
@@ -40,6 +41,7 @@ const Order: NextPage = () => {
 
   return (
     <section className="flex flex-col gap-4">
+      <FormTest />
       <div className="flex flex-col gap-4">
         <h2 className="text-3xl font-bold">Progress</h2>
         <Stepper

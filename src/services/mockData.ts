@@ -2,7 +2,7 @@ import { ProductOptionsResponse } from "@/types";
 
 export const productOptions: ProductOptionsResponse[] = [
   {
-    id: 453454441,
+    id: 1111,
     name: "Category 1",
     type: "radio",
     required: true,
@@ -18,7 +18,7 @@ export const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 272544,
+    id: 2222,
     name: "Category 2",
     type: "checkbox",
     required: false,
@@ -34,7 +34,7 @@ export const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 784366,
+    id: 3333,
     name: "Category 3",
     type: "counter",
     required: true,
@@ -46,7 +46,7 @@ export const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 2345768,
+    id: 4444,
     name: "Category 4",
     type: "radio",
     required: true,
@@ -58,15 +58,15 @@ export const productOptions: ProductOptionsResponse[] = [
     ],
   },
   {
-    id: 1342345,
+    id: 5555,
     name: "Category 5",
     type: "counter",
     required: false,
     options: [
-      { id: 1, name: "Item 1", required: true },
-      { id: 2, name: "Item 2" },
-      { id: 3, name: "Item 3", description: "$5.00" },
-      { id: 4, name: "Item 4" },
+      { id: 11, name: "Item 1", required: true },
+      { id: 22, name: "Item 2" },
+      { id: 33, name: "Item 3", description: "$5.00" },
+      { id: 44, name: "Item 4" },
     ],
   },
 ];
