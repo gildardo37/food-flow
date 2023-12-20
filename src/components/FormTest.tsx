@@ -1,23 +1,42 @@
-import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
-import { Button } from "./Button";
+import { FieldArray, Form, Formik } from "formik";
+import {
+  AddProductOptions,
+  DynamicField,
+  FieldOptionData,
+  FieldOptionType,
+  FieldOptions,
+  ProductFormData,
+} from "@/types";
 import { productOptions } from "@/services/mockData";
-import { AddProductOptions, FieldOptionData, FieldOptions } from "@/types";
+import { Button } from "@/components/Button";
+import { CounterField } from "@/components/Field/CounterField";
+import { DynamicFields } from "@/components/Field/DynamicFields";
 
-type FormData = Omit<AddProductOptions, "productId">;
+type DefaultValues = Omit<DynamicField, "id" | "name">;
+
+type DefaultValuesTypes = Record<FieldOptionType, FieldOptionData>;
+
+const getDefaultValues = ({ options, type, required }: DefaultValues) => {
+  const types: DefaultValuesTypes = {
+    checkbox: [],
+    counter: options.map((i) => (required || i.required ? 1 : 0)),
+    radio: "",
+  };
+  return types[type] ?? types.radio;
+};
 
 export const FormTest = () => {
-  const initialValues: FormData = {
-    quantity: 0,
-    options: productOptions.map(({ type, id }) => ({
+  const initialValues: ProductFormData = {
+    quantity: 1,
+    options: productOptions.map(({ type, id, options, required }) => ({
       id: id.toString(),
       type,
-      data: type === "checkbox" || type === "counter" ? [] : "",
+      data: getDefaultValues({ type, options, required }),
     })),
   };
 
-  const handleSubmit = (data: FormData) => {
-    console.log(data);
+  const handleSubmit = (data: ProductFormData) => {
     const result = parseResponse(data);
     console.log(result);
   };
@@ -25,7 +44,7 @@ export const FormTest = () => {
   const parseResponse = ({
     options,
     quantity,
-  }: FormData): AddProductOptions => {
+  }: ProductFormData): AddProductOptions => {
     return {
       productId: "12342676537",
       quantity,
@@ -57,60 +76,75 @@ export const FormTest = () => {
     }));
   };
 
-  // console.log(validationSchema);
+  const validate = (values: ProductFormData) => {
+    const errors: Record<string, string> = {};
+    const messages = {
+      checkbox: "At least one checkbox must be selected in this field",
+      radio: "One option must be selected in this field",
+      counter: "All inputs are required",
+      required: "This field is required",
+    };
+
+    values.options.forEach(({ data, type }, index) => {
+      const { options, required } = productOptions[index];
+      const name = `options[${index}].data`;
+      const itemName = (i: number) => `options[${index}].data[${i}]`;
+      const hasNegativeNumber = () => (data as number[]).some((e) => e <= 0);
+
+      if (!required && type === "counter") {
+        options.forEach((elem, i) => {
+          if ((data[i] as number) <= 0 && elem.required) {
+            errors[itemName(i)] = messages.required;
+          }
+        });
+      }
+
+      if (!required) {
+        return;
+      }
+
+      if (type === "checkbox" && !data.length) {
+        errors[name] = messages.checkbox;
+      } else if (type === "radio" && !data) {
+        errors[name] = messages.radio;
+      } else if (type === "counter" && hasNegativeNumber()) {
+        errors[name] = messages.counter;
+      }
+    });
+
+    return errors;
+  };
 
   return (
     <>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        <Form className="grid grid-cols-3 gap-8">
-          <fieldset>
-            <Field type="number" name="quantity" />
-          </fieldset>
-          <FieldArray name="options">
-            {() =>
-              productOptions.map((category, catIndex) => (
-                <fieldset key={category.id} className="flex flex-col gap-2">
-                  <h3>{category.name}</h3>
-                  {category.options.map((option, index) => (
-                    <label key={option.id}>
-                      {option.name}:
-                      {category.type === "radio" ? (
-                        <Field
-                          type="radio"
-                          name={`options.[${catIndex}].data`}
-                          value={option.id}
-                        />
-                      ) : category.type === "checkbox" ? (
-                        <Field
-                          type="checkbox"
-                          name={`options.[${catIndex}].data`}
-                          value={option.id}
-                        />
-                      ) : category.type === "counter" ? (
-                        <Field
-                          type="number"
-                          name={`options.[${catIndex}].data.[${index}]`}
-                        />
-                      ) : (
-                        <Field
-                          type="text"
-                          name={`options.[${catIndex}].data`}
-                        />
-                      )}
-                      <ErrorMessage
-                        name={`${category.id}-${option.id}`}
-                        component="div"
-                      />
-                    </label>
-                  ))}
-                </fieldset>
-              ))
-            }
-          </FieldArray>
-          <Button type="submit" fit>
-            Submit
-          </Button>
-        </Form>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validate={validate}
+      >
+        {() => (
+          <Form className="grid grid-cols-2 gap-8">
+            <fieldset>
+              <CounterField name="quantity" label="Quantity" />
+            </fieldset>
+            <FieldArray name="options">
+              {() =>
+                productOptions.map(
+                  ({ id, name, options, type, required }, index) => (
+                    <DynamicFields
+                      key={id}
+                      data={{ name, options, type, required }}
+                      index={index}
+                    />
+                  )
+                )
+              }
+            </FieldArray>
+            <Button type="submit" fit>
+              Submit
+            </Button>
+          </Form>
+        )}
       </Formik>
     </>
   );

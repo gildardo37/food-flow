@@ -1,3 +1,4 @@
+import { FormikProps } from "formik";
 import { Product } from ".";
 
 export * from "./ApiResponse";
@@ -83,11 +84,11 @@ export interface AddProductOptions {
   options: FieldOptions[];
 }
 
-export interface ProductOptionsResponse {
+export interface DynamicField {
   id: number;
+  options: OptionsData[];
   name: string;
   type: FieldOptionType;
-  options: OptionsData[];
   required?: boolean;
 }
 export interface OptionsData {
@@ -97,9 +98,13 @@ export interface OptionsData {
   required?: boolean;
 }
 
-export interface GroupFieldProps<T> {
+export interface GroupFieldProps {
   options: OptionsData[];
   name: string;
-  onChange: (data: T) => void;
+  index: number;
   required?: boolean;
 }
+
+export type ProductFormData = Omit<AddProductOptions, "productId">;
+
+export type ProductFormProps = FormikProps<ProductFormData>;

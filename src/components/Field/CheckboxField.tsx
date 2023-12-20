@@ -1,31 +1,24 @@
-import React, { useId } from "react";
-import { CheckboxData } from "@/types";
+import React from "react";
 import { clsxm } from "@/utils";
 import { Checkbox } from "@/components/Field/Checkbox";
 
 interface Props {
   label: string;
-  value: string;
+  value: string | number;
   name: string;
-  onChange: (data: CheckboxData) => void;
   className?: string;
   description?: string;
-  required?: boolean;
 }
 
 export const CheckboxField: React.FC<Props> = ({
   label,
   name,
-  description,
-  onChange,
-  className = "",
   value,
-  required = false,
+  description,
+  className = "",
 }) => {
-  const id = name + useId() + value;
   return (
     <label
-      htmlFor={id}
       className={clsxm(
         "justify-between-4 flex cursor-pointer items-center gap-4",
         className
@@ -37,15 +30,7 @@ export const CheckboxField: React.FC<Props> = ({
           <p className="text-xs text-gray-400">{description}</p>
         ) : null}
       </div>
-      <Checkbox
-        name={name}
-        id={id}
-        required={required}
-        onChange={({ target: { checked, value } }) =>
-          onChange({ checked, value })
-        }
-        value={value}
-      />
+      <Checkbox name={name} value={value.toString()} />
     </label>
   );
 };

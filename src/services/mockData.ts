@@ -1,6 +1,6 @@
-import { ProductOptionsResponse } from "@/types";
+import { DynamicField } from "@/types";
 
-export const productOptions: ProductOptionsResponse[] = [
+export const productOptions: DynamicField[] = [
   {
     id: 1111,
     name: "Category 1",
@@ -67,6 +67,22 @@ export const productOptions: ProductOptionsResponse[] = [
       { id: 22, name: "Item 2" },
       { id: 33, name: "Item 3", description: "$5.00" },
       { id: 44, name: "Item 4" },
+    ],
+  },
+  {
+    id: 6666,
+    name: "Category 2",
+    type: "checkbox",
+    required: true,
+    options: [
+      { id: 1, name: "Checkbox 1" },
+      {
+        id: 2,
+        name: "Checkbox 2",
+        description: "Includes sause.",
+      },
+      { id: 3, name: "Checkbox 3" },
+      { id: 4, name: "Checkbox 4" },
     ],
   },
 ];

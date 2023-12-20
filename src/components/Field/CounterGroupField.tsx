@@ -1,53 +1,32 @@
-import React, { useState, useId } from "react";
-import {
-  CounterResponse,
-  GroupFieldProps,
-  MultipleCounterResponse,
-} from "@/types";
-import { Accordion } from "@/components/Accordion";
+import React from "react";
+import { GroupFieldProps } from "@/types";
+import { getFieldName } from "@/utils";
 import { CounterField } from "@/components/Field/CounterField";
+import { FormError } from "@/components/Message/FormError";
+import { DynamicFieldGroup } from "@/components/Field/DynamicFieldGroup";
 
-export const CounterGroupField: React.FC<
-  GroupFieldProps<CounterResponse[]>
-> = ({ options, name, onChange, required }) => {
-  const [, setForm] = useState<MultipleCounterResponse>([]);
-  const idValue = useId();
-
-  const handleChange = (data: CounterResponse) => {
-    setForm((prev) => updateData(prev, data));
-  };
-
-  const updateData = (prev: MultipleCounterResponse, data: CounterResponse) => {
-    const { quantity, value } = data;
-    const newData = [...prev].map((item) =>
-      item.value === value ? { ...item, quantity } : item
-    );
-    const exists = newData.some((item) => item.value === value);
-
-    if (!exists) newData.push(data);
-
-    const response = newData.filter(({ quantity }) => quantity !== 0);
-    onChange(response);
-    return response;
-  };
+export const CounterGroupField: React.FC<GroupFieldProps> = ({
+  options,
+  name,
+  index,
+  required,
+}) => {
+  const fieldName = getFieldName(index);
 
   return (
-    <Accordion title={name} isOpen>
-      <fieldset className="flex flex-col gap-4 p-4">
-        {options.map(({ id, name, description, required: isRequired }) => (
+    <DynamicFieldGroup name={name} fieldName={fieldName}>
+      {options.map(({ id, name, description, required: isRequired }, idx) => (
+        <React.Fragment key={id}>
           <CounterField
             key={id}
             label={name}
-            description={description}
-            onChange={(quantity) =>
-              handleChange({ quantity, value: id.toString() })
-            }
-            maxAmount={20}
             required={required || isRequired}
-            name={`counter${idValue}`}
+            description={description}
+            name={getFieldName(index, idx)}
           />
-        ))}
-      </fieldset>
-    </Accordion>
+          <FormError name={getFieldName(index, idx)} />
+        </React.Fragment>
+      ))}
+    </DynamicFieldGroup>
   );
 };
