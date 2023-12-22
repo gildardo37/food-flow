@@ -3,8 +3,8 @@ import { useGetProducts } from "@/hooks/useApi";
 import { ProductCard } from "@/components/Product/ProductCard";
 import { Modal } from "@/components/Modal";
 import { useModal } from "@/hooks/useModal";
-import { ProductOptions } from "../Product/ProductOptions";
 import { Product } from "@/types";
+import { ProductOptions } from "@/components/Product/ProductOptions";
 
 export const SelectOrder: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -36,10 +36,11 @@ export const SelectOrder: React.FC = () => {
         onClose={closeModal}
         title="Product details"
         full
+        noScroll
       >
         {selectedId ? (
           <ProductOptions
-            data={data.data.find(({ id }) => id === selectedId) as Product}
+            product={data.data.find(({ id }) => id === selectedId) as Product}
             closeModal={closeModal}
           />
         ) : null}

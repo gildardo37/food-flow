@@ -1,6 +1,6 @@
 import React from "react";
 import { clsxm } from "@/utils";
-import { Counter } from "@/components/Counter";
+import { Counter } from "@/components/Field/Counter";
 
 interface Props {
   name: string;

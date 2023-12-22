@@ -4,14 +4,16 @@ import { ArrowDownIcon } from "@/components/Icons/ArrowDownIcon";
 
 interface Props {
   children: React.ReactNode;
-  title: string;
+  title: React.ReactNode | string;
   isOpen?: boolean;
+  className?: string;
 }
 
 export const Accordion: React.FC<Props> = ({
   title,
   children,
   isOpen = false,
+  className,
 }) => {
   const [open, setOpen] = useState(isOpen);
 
@@ -20,7 +22,12 @@ export const Accordion: React.FC<Props> = ({
   };
 
   return (
-    <article className="flex w-full flex-col rounded-md border transition-all">
+    <article
+      className={clsxm(
+        "flex w-full flex-col rounded-md border transition-all",
+        className
+      )}
+    >
       <div
         className="flex cursor-pointer justify-between p-3 font-semibold"
         onClick={handleOpen}

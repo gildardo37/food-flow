@@ -14,7 +14,7 @@ export const CounterGroupField: React.FC<GroupFieldProps> = ({
   const fieldName = getFieldName(index);
 
   return (
-    <DynamicFieldGroup name={name} fieldName={fieldName}>
+    <DynamicFieldGroup name={name} fieldName={fieldName} required={required}>
       {options.map(({ id, name, description, required: isRequired }, idx) => (
         <React.Fragment key={id}>
           <CounterField

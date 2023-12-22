@@ -37,7 +37,7 @@ export type StepComponents = Record<Steps, React.ReactNode>;
 
 export interface OrderDetails {
   tableId?: number;
-  products?: ProductDetails[];
+  products?: AddProductOptions[];
 }
 
 export interface ProductDetails {
@@ -65,7 +65,7 @@ export type InputRadioResponse = string;
 export type CheckboxResponse = CheckboxData["value"][];
 export type MultipleCounterResponse = CounterResponse[];
 
-export type FieldOptionType = "radio" | "checkbox" | "counter";
+export type FieldOptionType = "radio" | "checkbox" | "counter" | "text";
 
 export type FieldOptionData =
   | InputRadioResponse
@@ -82,11 +82,12 @@ export interface AddProductOptions {
   productId: Product["id"];
   quantity: number;
   options: FieldOptions[];
+  notes: string;
 }
 
 export interface DynamicField {
   id: number;
-  options: OptionsData[];
+  options?: OptionsData[];
   name: string;
   type: FieldOptionType;
   required?: boolean;

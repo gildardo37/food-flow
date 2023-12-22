@@ -1,10 +1,10 @@
 import React from "react";
-import { Field } from "formik";
 import { DynamicField } from "@/types";
 import { getFieldName } from "@/utils";
 import { RadioGroupField } from "@/components/Field/RadioGroupField";
 import { CheckboxGroupField } from "@/components/Field/CheckboxGroupField";
 import { CounterGroupField } from "@/components/Field/CounterGroupField";
+import { TextGroupField } from "@/components/Field/TextGroupField";
 
 type DataProps = Omit<DynamicField, "id">;
 
@@ -14,11 +14,12 @@ interface Props {
 }
 
 export const DynamicFields: React.FC<Props> = ({
-  data: { name, options, type, required },
+  data: { name, options = [], type, required },
   index,
 }) => {
   const fieldName = getFieldName(index);
-  const props = { name, options, required, index };
+  console.log(fieldName);
+  const props = { name, options: options, required, index };
 
   return type === "radio" ? (
     <RadioGroupField {...props} />
@@ -27,6 +28,6 @@ export const DynamicFields: React.FC<Props> = ({
   ) : type === "counter" ? (
     <CounterGroupField {...props} />
   ) : (
-    <Field type="text" name={fieldName} required />
+    <TextGroupField {...props} />
   );
 };

@@ -8,6 +8,7 @@ interface Props {
   minimize?: boolean;
   small?: boolean;
   required?: boolean;
+  maxAmmount?: number;
 }
 
 export const Counter: React.FC<Props> = ({
@@ -15,6 +16,7 @@ export const Counter: React.FC<Props> = ({
   required = false,
   minimize = false,
   small = false,
+  maxAmmount = 10,
 }) => {
   const { setFieldValue, getFieldProps } = useFormikContext();
 
@@ -22,8 +24,15 @@ export const Counter: React.FC<Props> = ({
 
   const hide = value === 0 && minimize && !required;
 
+  const isDecrementDisabled = value <= (required ? 1 : 0);
+  const isIncrementDisabled = value >= maxAmmount;
+
   const updateInput = (decrement = false) => {
-    if (decrement && value <= 1) return;
+    if (
+      (decrement && isDecrementDisabled) ||
+      (!decrement && isIncrementDisabled)
+    )
+      return;
     const operation = decrement ? value - 1 : value + 1;
     setFieldValue(name, operation);
   };
@@ -41,6 +50,7 @@ export const Counter: React.FC<Props> = ({
         type="button"
         rounded
         small={small}
+        disabled={isDecrementDisabled}
       >
         -
       </Button>
@@ -60,6 +70,7 @@ export const Counter: React.FC<Props> = ({
         type="button"
         rounded
         small={small}
+        disabled={isIncrementDisabled}
       >
         +
       </Button>

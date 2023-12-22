@@ -8,6 +8,7 @@ export const CheckboxGroupField: React.FC<GroupFieldProps> = ({
   options,
   name,
   index,
+  required,
 }) => {
   const fieldName = getFieldName(index);
 
@@ -16,6 +17,7 @@ export const CheckboxGroupField: React.FC<GroupFieldProps> = ({
       name={name}
       message="Select 1 or more options."
       fieldName={fieldName}
+      required={required}
     >
       {options.map(({ id, name, description }) => (
         <CheckboxField

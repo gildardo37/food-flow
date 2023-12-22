@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Card } from "../Card";
+import { Card } from "@/components/Card";
 import { ProductCardData } from "@/types";
 
 interface Props {
@@ -13,7 +13,10 @@ export const ProductCard: React.FC<Props> = ({
   onClick = () => undefined,
 }) => {
   return (
-    <Card className="flex flex-col gap-2 text-left" onClick={onClick}>
+    <Card
+      className="flex flex-col gap-2 text-left transition-all hover:scale-[.98] hover:bg-slate-200"
+      onClick={onClick}
+    >
       <div className="relative aspect-square w-full shrink-0">
         <Image
           src={image ?? "/hamburger.jpg"}

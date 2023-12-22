@@ -8,14 +8,16 @@ export const RadioGroupField: React.FC<GroupFieldProps> = ({
   options,
   name,
   index,
+  required,
 }) => {
   const fieldName = getFieldName(index);
 
   return (
     <DynamicFieldGroup
       name={name}
-      message="Select 1 options."
+      message="Select 1 option."
       fieldName={fieldName}
+      required={required}
     >
       {options.map(({ id, name, description }) => (
         <RadioField

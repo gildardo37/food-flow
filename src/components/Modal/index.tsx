@@ -8,6 +8,7 @@ interface Props {
   children?: React.ReactNode;
   onClose: () => void;
   full?: boolean;
+  noScroll?: boolean;
 }
 
 export const Modal: React.FC<Props> = ({
@@ -16,6 +17,7 @@ export const Modal: React.FC<Props> = ({
   onClose,
   title,
   full,
+  noScroll,
 }: Props) => {
   const [triggerClose, setTriggerClose] = useState(false);
 
@@ -42,8 +44,8 @@ export const Modal: React.FC<Props> = ({
     >
       <section
         className={clsxm(
-          "animate__animated animate__zoomIn flex h-full max-h-screen w-full max-w-screen-md flex-col gap-4 overflow-y-auto bg-white p-4 md:h-auto md:max-h-[80vh] md:max-w-screen-md md:rounded-lg md:p-6",
-          { "md:h-full": full }
+          "animate__animated animate__zoomIn relative flex h-full max-h-screen w-full max-w-screen-md flex-col gap-4 bg-white p-4 md:h-auto md:max-h-[80vh] md:max-w-screen-md md:rounded-lg md:p-6",
+          { "md:h-full": full, "overflow-y-auto": !noScroll }
         )}
       >
         <header className="flex items-center justify-between">
@@ -52,7 +54,9 @@ export const Modal: React.FC<Props> = ({
             <CloseIcon height="32" width="32" />
           </button>
         </header>
-        <div>{children}</div>
+        <div className={clsxm({ "h-[calc(100%-48px)]": noScroll })}>
+          {children}
+        </div>
       </section>
     </div>
   ) : null;
