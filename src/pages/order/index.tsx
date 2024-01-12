@@ -1,11 +1,11 @@
 import React from "react";
 import { NextPage } from "next";
 import { useStepper } from "@/hooks/useStepper";
-import { Button } from "@/components/Button";
 import { Stepper } from "@/components/Stepper";
 import { SelectTable } from "@/components/Steps/SelectTable";
 import { SelectOrder } from "@/components/Steps/SelectOrder";
 import { StepButtons } from "@/components/Stepper/StepButtons";
+import { Checkout } from "@/components/Steps/Checkout";
 
 const Order: NextPage = () => {
   const {
@@ -19,16 +19,15 @@ const Order: NextPage = () => {
     setActiveStep,
     isNextDisabled,
     enableNextButton,
-  } = useStepper({ steps: ["Table", "Order", "Review", "Checkout"] });
+  } = useStepper({ steps: ["Table", "Order", "Checkout"] });
 
-  const componentes: React.ReactNode[] = [
-    <SelectTable key="0" onChange={enableNextButton} />,
-    <SelectOrder key="1" />,
-    <Button key="2">Checkout</Button>,
-    <Button key="3">Review</Button>,
+  const components: React.ReactNode[] = [
+    <SelectTable key="0" enableNextButton={enableNextButton} />,
+    <SelectOrder key="1" enableNextButton={enableNextButton} />,
+    <Checkout key="2" />,
   ];
 
-  const progressWidth: number[] = [1, 33.33, 64, 100];
+  const progressWidth: number[] = [1, 49, 100];
 
   const onSubmit = () => {
     handleFinish();
@@ -48,7 +47,7 @@ const Order: NextPage = () => {
           activeStep={activeStep}
           onChange={(value) => setActiveStep(value)}
         />
-        {componentes[activeStep]}
+        {components[activeStep]}
         <StepButtons
           isFirstStep={isFirstStep}
           isLastStep={isLastStep}

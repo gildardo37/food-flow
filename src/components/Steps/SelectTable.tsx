@@ -4,17 +4,17 @@ import { useAtom } from "jotai";
 import { orderAtom } from "@/atoms/order";
 
 interface Props {
-  onChange: () => void;
+  enableNextButton: () => void;
 }
 
-export const SelectTable: React.FC<Props> = ({ onChange }) => {
+export const SelectTable: React.FC<Props> = ({ enableNextButton }) => {
   const [order, setOrder] = useAtom(orderAtom);
   const { data, isLoading: isTableLoading, error } = useGetTables();
   const { tableId } = order;
 
   const onTableChange = (id: number) => {
     setOrder((prev) => ({ ...prev, tableId: id }));
-    onChange();
+    enableNextButton();
   };
 
   return isTableLoading ? (

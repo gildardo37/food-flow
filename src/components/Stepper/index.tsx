@@ -1,7 +1,7 @@
 import React from "react";
 import { StepOptions } from "@/types";
-import { Step } from "./Step";
-import { ProgressBar } from "../ProgressBar";
+import { Step } from "@/components/Stepper/Step";
+import { ProgressBar } from "@/components/ProgressBar";
 
 interface Props {
   options: StepOptions[];
