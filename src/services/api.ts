@@ -1,6 +1,7 @@
-import { Login, Product, SupabaseRequest, Table } from "@/types";
+import { DynamicField, Login, Product, SupabaseRequest, Table } from "@/types";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/services/database";
+import { productOptions } from "@/services/mockData";
 
 export const wait = (ms: number) => new Promise((fn) => setTimeout(fn, ms));
 
@@ -53,4 +54,19 @@ export const getProducts = async () => {
       .select("*, categories(*)")
       .order("id", { ascending: true })
   );
+};
+
+export const getProductOptions = async (productId: string) => {
+  console.log(productId);
+  return handleRequest<DynamicField[]>(() => ({
+    data: productOptions,
+    error: null,
+  }));
+};
+
+export const getAllProductOptions = async () => {
+  return handleRequest<DynamicField[]>(() => ({
+    data: productOptions,
+    error: null,
+  }));
 };

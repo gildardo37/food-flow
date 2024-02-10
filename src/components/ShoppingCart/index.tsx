@@ -26,7 +26,7 @@ export const ShoppingCart = () => {
         ) : null}
         <CartIcon />
       </button>
-      <Modal modalOpen={isOpen} onClose={closeModal} title="Shopping Cart">
+      <Modal modalOpen={isOpen} onClose={closeModal} title="Cart">
         {items ? (
           <CartItems />
         ) : (

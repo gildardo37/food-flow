@@ -32,7 +32,7 @@ export const DynamicFieldGroup: React.FC<Props> = ({
         </p>
       }
       isOpen
-      className={clsxm({ "border-red-400": hasErrors })}
+      className={clsxm({ "accordion-error border-red-400": hasErrors })}
     >
       <fieldset className="flex flex-col gap-4 p-4">
         {message ? (

@@ -109,3 +109,8 @@ export interface GroupFieldProps {
 export type ProductFormData = Omit<AddProductOptions, "productId">;
 
 export type ProductFormProps = FormikProps<ProductFormData>;
+
+export interface GetValueProps {
+  elem: FieldOptions;
+  options?: OptionsData[];
+}

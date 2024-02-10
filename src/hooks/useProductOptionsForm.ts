@@ -39,9 +39,20 @@ export const useProductOptionsForm = ({ productOptions }: Props) => {
     })),
   };
 
+  const scrollIntoError = () => {
+    const form = document.querySelector("form div.form-no-scroll");
+    const elements = form?.querySelectorAll(".accordion-error");
+
+    if (elements?.length) {
+      elements[0]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const validate = (values: ProductFormData) => {
     const errors: Record<string, string> = {};
     const messages = formErrorMessages;
+
+    setTimeout(scrollIntoError, 500);
 
     values.options.forEach(({ data, type }, index) => {
       const { options, required } = productOptions[index];

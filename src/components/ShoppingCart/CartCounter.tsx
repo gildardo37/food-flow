@@ -34,8 +34,6 @@ export const CartCounter: React.FC<Props> = ({ quantity, id, index }) => {
     });
   };
 
-  console.log({ quantity });
-
   return (
     <div className={clsxm("flex h-fit w-[120px] select-none items-center")}>
       <button onClick={() => updateInput(true)} type="button">
