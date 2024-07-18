@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { sessionAtom } from "@/atoms/session";
 import { useLogin, useSetSession } from "@/hooks/useApi";
 import { handleErrors } from "@/utils";
+import { ordersPage } from "@/utils/consts";
 import { useAlert } from "@/hooks/useAlert";
 import { useForm } from "@/hooks/useForm";
 import { Field } from "@/components/Field";
@@ -40,7 +41,7 @@ const LoginPage: NextPage = () => {
         const { error: sessionError } = await setUserSession(data.session);
         if (sessionError) throw sessionError;
         setSession(data.session);
-        router.replace("/order");
+        router.replace(ordersPage);
       } else {
         throw new Error("Something failed");
       }

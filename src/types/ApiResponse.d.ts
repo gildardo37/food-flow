@@ -35,3 +35,27 @@ export type ProductCardData = Omit<
   Product,
   "id" | "created_at" | "category_fk" | "categories"
 >;
+
+export interface Order {
+  id: string;
+  created_at: Date;
+  status: boolean;
+  table_fk: number;
+  user_fk: string;
+  notes: string;
+  total: number;
+}
+
+export interface OrderProducts {
+  id: string;
+  created_at: Date;
+  product_fk: string;
+  order_fk: number;
+  notes: string;
+  quantity: number;
+  sub_total: number;
+}
+
+export type AddOrderProducts = Omit<OrderProducts, "id" | "created_at">;
+
+export type ProductPrices = Pick<Product, "id" | "price">[];

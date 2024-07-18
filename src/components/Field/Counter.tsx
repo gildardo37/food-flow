@@ -45,7 +45,7 @@ export const Counter: React.FC<Props> = ({
       )}
     >
       <Button
-        className={clsxm("w-10", hide && "hidden")}
+        className={clsxm("shrink-0", hide && "hidden")}
         onClick={() => updateInput(true)}
         type="button"
         rounded
@@ -65,7 +65,7 @@ export const Counter: React.FC<Props> = ({
         readOnly
       />
       <Button
-        className="w-10 text-2xl"
+        className="shrink-0 text-2xl"
         onClick={() => updateInput()}
         type="button"
         rounded

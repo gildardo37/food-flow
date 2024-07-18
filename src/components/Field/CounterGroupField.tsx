@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { GroupFieldProps } from "@/types";
 import { getFieldName } from "@/utils";
 import { CounterField } from "@/components/Field/CounterField";
@@ -16,7 +16,7 @@ export const CounterGroupField: React.FC<GroupFieldProps> = ({
   return (
     <DynamicFieldGroup name={name} fieldName={fieldName} required={required}>
       {options.map(({ id, name, description, required: isRequired }, idx) => (
-        <React.Fragment key={id}>
+        <Fragment key={id}>
           <CounterField
             key={id}
             label={name}
@@ -25,7 +25,7 @@ export const CounterGroupField: React.FC<GroupFieldProps> = ({
             name={getFieldName(index, idx)}
           />
           <FormError name={getFieldName(index, idx)} />
-        </React.Fragment>
+        </Fragment>
       ))}
     </DynamicFieldGroup>
   );

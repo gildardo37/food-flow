@@ -34,7 +34,7 @@ export const ProductOptionsHeader: React.FC<Props> = ({
         <p className="font-bold">${price}</p>
       </div>
       <fieldset>
-        <Counter name="quantity" required />
+        <Counter name="quantity" required small />
       </fieldset>
     </div>
   );

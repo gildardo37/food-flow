@@ -33,7 +33,6 @@ export const Button: React.FC<Props> = ({
     <button
       className={clsxm([
         "button flex h-[42px] w-full items-center justify-center gap-1 rounded-xl px-4 py-2 uppercase transition-all disabled:cursor-not-allowed disabled:opacity-70",
-        className,
         {
           "bg-black text-white": buttonType === "primary",
           "border border-black text-black": buttonType === "secondary",
@@ -41,6 +40,7 @@ export const Button: React.FC<Props> = ({
           "h-9 w-9": small,
           "w-fit": fit,
         },
+        className,
       ])}
       onClick={onClick && (!disabled || isLoading) ? onClick : undefined}
       type={type}

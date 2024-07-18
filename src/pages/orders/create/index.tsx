@@ -1,13 +1,18 @@
 import React from "react";
 import { NextPage } from "next";
+import { useAtom } from "jotai";
+import { orderAtom } from "@/atoms/order";
+import { handleErrors } from "@/utils";
+import { useAlert } from "@/hooks/useAlert";
 import { useStepper } from "@/hooks/useStepper";
+import { usePostOrder } from "@/hooks/useApi";
 import { Stepper } from "@/components/Stepper";
 import { SelectTable } from "@/components/Steps/SelectTable";
 import { SelectOrder } from "@/components/Steps/SelectOrder";
 import { StepButtons } from "@/components/Stepper/StepButtons";
 import { Checkout } from "@/components/Steps/Checkout";
 
-const Order: NextPage = () => {
+const CreateOrderPage: NextPage = () => {
   const {
     activeStep,
     isFirstStep,
@@ -26,11 +31,22 @@ const Order: NextPage = () => {
     <SelectOrder key="1" enableNextButton={enableNextButton} />,
     <Checkout key="2" />,
   ];
-
+  const [order] = useAtom(orderAtom);
+  const { displayAlert } = useAlert();
+  const { mutateAsync: addOrder, isPending: isLoading } = usePostOrder();
   const progressWidth: number[] = [1, 49, 100];
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     handleFinish();
+    try {
+      const response = await addOrder(order);
+      console.log(response);
+      if (response.error) {
+        throw response.error;
+      }
+    } catch (error) {
+      handleErrors(error, displayAlert);
+    }
   };
 
   const onNextStep = () => {
@@ -55,10 +71,11 @@ const Order: NextPage = () => {
           onBackStep={handleBack}
           onNextStep={onNextStep}
           onFinalStep={onSubmit}
+          isLastDisabled={isLoading}
         />
       </div>
     </section>
   );
 };
 
-export default Order;
+export default CreateOrderPage;

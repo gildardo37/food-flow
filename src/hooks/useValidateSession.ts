@@ -5,13 +5,13 @@ import { sessionAtom, sessionLoadingAtom } from "@/atoms/session";
 import { validateSession } from "@/services/api";
 import { handleErrors } from "@/utils";
 import { useAlert } from "@/hooks/useAlert";
+import { ordersPage } from "@/utils/consts";
 
 export const useValidateSession = () => {
   const { displayAlert } = useAlert();
   const [loading, setLoading] = useAtom(sessionLoadingAtom);
   const [session, setSession] = useAtom(sessionAtom);
   const router = useRouter();
-  const redirectPage = "/order";
   const sessionPages = ["/", "/sign-up"];
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const useValidateSession = () => {
         } else if (data.session) {
           setSession(data.session);
           if (sessionPages.includes(router.asPath)) {
-            router.replace(redirectPage);
+            router.replace(ordersPage);
           }
         } else {
           if (!sessionPages.includes(router.asPath)) {
