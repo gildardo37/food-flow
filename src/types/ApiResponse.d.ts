@@ -38,12 +38,12 @@ export type ProductCardData = Omit<
 
 export interface Order {
   id: string;
-  created_at: Date;
+  createdAt: Date;
   status: boolean;
-  table_fk: number;
-  user_fk: string;
   notes: string;
   total: number;
+  user: User;
+  table: Table;
 }
 
 export interface OrderProducts {
@@ -54,6 +54,15 @@ export interface OrderProducts {
   notes: string;
   quantity: number;
   sub_total: number;
+}
+
+export interface User {
+  id: string;
+  createdAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roleFk: number;
 }
 
 export type AddOrderProducts = Omit<OrderProducts, "id" | "created_at">;

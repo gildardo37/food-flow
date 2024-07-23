@@ -8,6 +8,8 @@ import React from "react";
 const OrdersPage: NextPage = () => {
   const { data: orders, isLoading, error } = useGetOrders();
 
+  console.log(orders?.data);
+
   return (
     <section className="flex flex-col gap-4">
       <div className="flex justify-between">
@@ -22,15 +24,15 @@ const OrdersPage: NextPage = () => {
         <p>{error.message}</p>
       ) : orders?.data ? (
         <div className="grid grid-cols-3 gap-8">
-          {orders?.data.map(({ id, created_at, table_fk, user_fk }) => (
+          {orders?.data.map(({ id, createdAt, user, table }) => (
             <Link
               key={id}
               href={orderDetailPage(id)}
               className="radio flex cursor-pointer flex-col rounded-md border-2 border-slate-100 bg-slate-100 p-4"
             >
-              <div>Table: {table_fk}</div>
-              <div>User: {user_fk}</div>
-              <div>{new Date(created_at).toLocaleString()}</div>
+              <div>Table: {table.id}</div>
+              <div>User: {user.firstName}</div>
+              <div>{new Date(createdAt).toLocaleString()}</div>
             </Link>
           ))}
         </div>

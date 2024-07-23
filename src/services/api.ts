@@ -89,7 +89,11 @@ export const getAllProductOptions = async () => {
 export const getOrders = async () => {
   return supabase
     .from("orders")
-    .select("*")
+    .select(
+      `id, notes, status, total, createdAt: created_at,
+      table: tables(*),
+      user: users(id, firstName: first_name, lastName: last_name)`
+    )
     .eq("status", true)
     .returns<Order[]>();
 };

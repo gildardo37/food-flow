@@ -1,5 +1,9 @@
 import React from "react";
 import { Button } from "../Button";
+import { useAtom } from "jotai";
+import { orderAtom } from "@/atoms/order";
+import { useRouter } from "next/router";
+import { ordersPage } from "@/utils/consts";
 
 interface Props {
   isFirstStep: boolean;
@@ -20,8 +24,12 @@ export const StepButtons: React.FC<Props> = ({
   onNextStep,
   onFinalStep,
 }) => {
+  const router = useRouter();
+  const [, setOrder] = useAtom(orderAtom);
+
   const cancel = () => {
-    console.log("cancel request");
+    setOrder({});
+    router.replace(ordersPage);
   };
 
   return (
