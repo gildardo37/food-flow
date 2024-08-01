@@ -1,5 +1,5 @@
 import {
-  AddOrderProducts,
+  AddProductOptions,
   DynamicField,
   Login,
   Order,
@@ -12,6 +12,14 @@ import {
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/services/database";
 import { productOptions } from "@/services/mockData";
+
+export interface AddOrderProducts {
+  product_fk: string;
+  order_fk: number;
+  notes: string;
+  quantity: number;
+  sub_total: number;
+}
 
 export const wait = (ms: number) => new Promise((fn) => setTimeout(fn, ms));
 
@@ -106,9 +114,14 @@ export const getOrderById = async (orderId: string) => {
 
 export const postOrder = async ({ tableId, products }: OrderDetails) => {
   try {
-    if (!products) {
+    if (!tableId) {
+      throw new Error("No table selected.");
+    }
+
+    if (!products || !products?.length) {
       throw new Error("No products added.");
     }
+
     const { data } = await supabase.auth.getSession();
     const productList = await getProductPrices();
 
@@ -116,50 +129,85 @@ export const postOrder = async ({ tableId, products }: OrderDetails) => {
       throw productList.error;
     }
 
-    const getProductPrice = (productId: string) => {
-      return productList.data.find(({ id }) => productId === id);
-    };
-
-    const newProducts: AddOrderProducts[] = products.map(
-      ({ productId, quantity, notes }) => ({
-        product_fk: productId,
-        order_fk: 1,
-        notes,
-        quantity,
-        sub_total: quantity * (getProductPrice(productId)?.price ?? 0),
-      })
-    );
-
-    const total = newProducts?.reduce((acc, { sub_total }) => {
-      return acc + sub_total;
-    }, 0);
-
-    const addOrder = await supabase
-      .from("orders")
-      .insert({
-        table_fk: tableId,
-        user_fk: data.session?.user.id,
-        notes: null,
-        total,
-      })
-      .select();
+    const newProducts = modifyProducts(products, productList.data);
+    const total = getTotalPrice(newProducts);
+    const addOrder = await addOrderQuery({
+      tableId,
+      total,
+      userId: data.session?.user.id ?? "",
+    });
 
     if (addOrder.error) {
       throw addOrder.error;
     }
 
-    const orderId = addOrder.data?.[0].id;
-
-    console.log(newProducts);
-
-    const insertProducts = newProducts.map((data) => ({
-      ...data,
-      order_fk: orderId,
-    }));
-
-    return await supabase.from("order_products").insert(insertProducts);
+    const orderId = Number(addOrder.data?.[0].id);
+    const insertProducts = addOrderId(newProducts, orderId);
+    return await addOrderProductsQuery(insertProducts);
   } catch (error) {
     console.error(error);
     throw error;
   }
+};
+
+const modifyProducts = (
+  products: AddProductOptions[],
+  productList: ProductPrices
+): AddOrderProducts[] => {
+  const getProductPrice = (productId: string) => {
+    return productList.find(({ id }) => productId === id)?.price ?? 0;
+  };
+
+  const newProducts = products.map(({ productId, quantity, notes }) => {
+    return {
+      product_fk: productId,
+      order_fk: 1,
+      notes,
+      quantity,
+      sub_total: quantity * getProductPrice(productId),
+    };
+  });
+
+  return newProducts;
+};
+
+const getTotalPrice = (products: AddOrderProducts[]) => {
+  return products?.reduce((acc, { sub_total }) => {
+    return acc + sub_total;
+  }, 0);
+};
+
+const addOrderId = (
+  products: AddOrderProducts[],
+  orderId: number
+): AddOrderProducts[] => {
+  return products.map((data) => ({
+    ...data,
+    order_fk: orderId,
+  }));
+};
+
+const addOrderQuery = async ({
+  tableId,
+  userId,
+  total,
+}: {
+  tableId: number;
+  userId: string;
+  total: number;
+}) => {
+  return await supabase
+    .from("orders")
+    .insert({
+      table_fk: tableId,
+      user_fk: userId,
+      notes: null,
+      total,
+    })
+    .select()
+    .returns<Order[]>();
+};
+
+const addOrderProductsQuery = async (products: AddOrderProducts[]) => {
+  return await supabase.from("order_products").insert(products);
 };

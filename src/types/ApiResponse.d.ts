@@ -9,31 +9,31 @@ export interface Login {
 
 export interface Table {
   id: number;
-  created_at: Date;
+  createdAt: Date;
   name: string;
   capacity: number;
 }
 
 export interface Product {
   id: string;
-  created_at: Date;
+  createdAt: Date;
   name: string;
   description: string;
   image: string;
   price: number;
-  category_fk: number;
+  categoryFk: number;
   categories: Category;
 }
 
 export interface Category {
   id: number;
-  created_at: Date;
+  createdAt: Date;
   name: string;
 }
 
 export type ProductCardData = Omit<
   Product,
-  "id" | "created_at" | "category_fk" | "categories"
+  "id" | "createdAt" | "categoryFk" | "categories"
 >;
 
 export interface Order {
@@ -48,12 +48,12 @@ export interface Order {
 
 export interface OrderProducts {
   id: string;
-  created_at: Date;
-  product_fk: string;
-  order_fk: number;
+  createdAt: Date;
+  productFk: string;
+  orderFk: number;
   notes: string;
   quantity: number;
-  sub_total: number;
+  subTotal: number;
 }
 
 export interface User {
@@ -64,7 +64,5 @@ export interface User {
   lastName: string;
   roleFk: number;
 }
-
-export type AddOrderProducts = Omit<OrderProducts, "id" | "created_at">;
 
 export type ProductPrices = Pick<Product, "id" | "price">[];
